@@ -8,6 +8,10 @@ const PostMedia = require('./postMedia');
 const Like = require('./like');
 const Comment = require('./comment');
 const Notification = require('./notification');
+const Conversation = require('./conversation');
+const ConversationMember = require('./conversationMember');
+const Message = require('./message');
+const MessageReceipt = require('./messageReceipt');
 
 User.initModel(sequelize);
 Profile.initModel(sequelize);
@@ -17,6 +21,10 @@ PostMedia.initModel(sequelize);
 Like.initModel(sequelize);
 Comment.initModel(sequelize);
 Notification.initModel(sequelize);
+Conversation.initModel(sequelize);
+ConversationMember.initModel(sequelize);
+Message.initModel(sequelize);
+MessageReceipt.initModel(sequelize);
 
 // Associations
 User.hasOne(Profile, { foreignKey: 'user_id', onDelete: 'CASCADE' });
@@ -49,6 +57,10 @@ User.hasMany(Notification, { foreignKey: 'receiver_id', as: 'notifications' , on
 Notification.belongsTo(User, { foreignKey: 'receiver_id', as: 'receiver' });
 Notification.belongsTo(User, { foreignKey: 'sender_id', as: 'sender' });
 
+Conversation.hasMany(ConversationMember, { foreignKey: 'conversation_id' });
+Conversation.hasMany(Message, { foreignKey: 'conversation_id' });
+Message.hasMany(MessageReceipt, { foreignKey: 'message_id' });
+
 module.exports = {
   sequelize,
   User,
@@ -58,5 +70,9 @@ module.exports = {
   PostMedia,
   Like,
   Comment,
-  Notification
+  Notification,
+  Conversation,
+  ConversationMember,
+  Message,
+  MessageReceipt
 };

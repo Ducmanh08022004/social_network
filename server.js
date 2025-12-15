@@ -18,6 +18,8 @@ const likeRoutes = require('./routes/likes');
 const commentRoutes = require('./routes/comments');
 const notificationRoutes = require('./routes/notifications');
 const chatRoutes = require('./routes/chat');
+const aiRoutes = require('./routes/ai');
+
 
 const app = express();
 app.use(cors({
@@ -31,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // API routes
+app.use('/api/ai', aiRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/friendships', friendshipRoutes);

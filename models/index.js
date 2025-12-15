@@ -58,8 +58,29 @@ Notification.belongsTo(User, { foreignKey: 'receiver_id', as: 'receiver' });
 Notification.belongsTo(User, { foreignKey: 'sender_id', as: 'sender' });
 
 Conversation.hasMany(ConversationMember, { foreignKey: 'conversation_id' });
-Conversation.hasMany(Message, { foreignKey: 'conversation_id' });
-Message.hasMany(MessageReceipt, { foreignKey: 'message_id' });
+// Chat associations
+Conversation.hasMany(ConversationMember, {
+  foreignKey: 'conversation_id',
+  onDelete: 'CASCADE'
+});
+
+Conversation.hasMany(Message, {
+  foreignKey: 'conversation_id',
+  onDelete: 'CASCADE'
+});
+Message.belongsTo(Conversation, {
+  foreignKey: 'conversation_id'
+});
+
+Message.hasMany(MessageReceipt, {
+  foreignKey: 'message_id',
+  as: 'receipts',
+  onDelete: 'CASCADE'
+});
+MessageReceipt.belongsTo(Message, {
+  foreignKey: 'message_id'
+});
+
 
 module.exports = {
   sequelize,
